@@ -2,5 +2,8 @@
 
 @section('content')
     @include('layouts.header')
-    @include('side-panel.main')
+    <main>
+        @include('side-panel.main')
+        @include('messanger.main')
+    </main>
 @endsection

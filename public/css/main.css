@@ -1,5 +1,6 @@
 @import "./header.css";
 @import "../css/side-panel.css";
+@import "../css/messanger.css";
 
 body {
     margin: 0;
@@ -7,6 +8,11 @@ body {
 
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 14px;
+}
+
+main {
+    display: flex;
+    height: calc(100vh - 56px);
 }
 
 a {
