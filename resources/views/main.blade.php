@@ -1,5 +1,5 @@
 @extends('layouts.layout')
 
 @section('content')
-    Main Section
+    @include('layouts.header')
 @endsection
