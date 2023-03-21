@@ -1,0 +1,90 @@
+.side-panel {
+    width: 320px;
+    height: calc(100vh - 56px);
+
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.side-panel__search {
+    width: 271px;
+    position: relative;
+    padding: 6px 0;
+    padding-left: 30px;
+    margin-top: 14px;
+    margin-left: 24.5px;
+    margin-bottom: 14px;
+
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+}
+
+.input__container {
+    position: relative;
+}
+
+.input__container::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    top: 19px;
+    left: 33px;
+
+    background-image: url("../images/search.svg");
+}
+
+.preview {
+    display: flex;
+    align-items: center;
+    margin-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 15px;
+}
+
+.content-part {
+    flex-grow: 1;
+}
+
+.top-part {
+    display: flex;
+    justify-content: space-between;
+}
+
+.down-part {
+    display: flex;
+    justify-content: space-between;
+}
+
+.preview__name {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 5px;
+}
+
+.preview__time {
+    margin: 0;
+    padding: 5px;
+
+    font-size: 12px;
+
+    opacity: 0.5;
+}
+
+.preview__text {
+    margin: 0;
+    padding: 5px;
+}
+
+.preview__unread-messages {
+    margin: 0;
+    padding: 5px;
+    width: 20px;
+    height: 20px;
+
+    text-align: center;
+    color: #fff;
+
+    background-color: #0086EA;
+    border-radius: 50%;
+}
