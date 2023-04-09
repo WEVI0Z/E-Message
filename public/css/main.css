@@ -1,6 +1,7 @@
 @import "./header.css";
 @import "../css/side-panel.css";
 @import "../css/messanger.css";
+@import "./auth.css";
 
 body {
     margin: 0;
