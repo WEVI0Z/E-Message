@@ -64,3 +64,8 @@
 .form__suggest:hover {
     color: blue;
 }
+
+.form__message {
+    font-size: 14px;
+    color: red;
+}
