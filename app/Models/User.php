@@ -22,7 +22,7 @@ class User extends Authenticatable
         return $this->hasMany(Message::class);
     }
 
-    public function conversation() {
+    public function conversations() {
         return $this->belongsToMany(Conversation::class);
     }
 }

@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Conversation;
 use App\Models\ConversationUser;
+use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class DialogController extends Controller
 {
     function createConversation(Request $request) {
-        $user_id = User::query()->where("access_token", "=", $request->headers->all()["token"][0])->get()[0]->id;
+        $user_id = User::query()
+                    ->where("access_token", "=", $request->headers->all()["token"][0])
+                    ->get()[0]
+                    ->id;
 
         $validator = Validator::make($request->all(), [
             "user_id" => "required|integer",
@@ -47,5 +50,51 @@ class DialogController extends Controller
         ]);
 
         return Conversation::with(["messages", "users"])->find($conversation->id);
+    }
+
+    function getConversations(Request $request) {
+        $user = User::with("conversations")
+                ->get()
+                ->where("access_token", "=", $request->headers->all()["token"][0]);
+
+        $conversations = $user[0]->conversations;
+
+        return $conversations;
+    }
+
+    function getConversation(Request $request) {
+        $conversation_id = $request->route("conversationId");
+
+        $conversation = Conversation::with(["messages", "users"])->find($conversation_id);
+
+        return $conversation;
+    }
+
+    function sendMessage(Request $request) {
+        $validator = Validator::make($request->all(), [
+            "text" => "required",
+        ]);
+
+        if($validator->fails()) {
+            return response([
+                'status' => 'Validator exception',
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        $user_id = User::query()
+                    ->where("access_token", "=", $request->headers->all()["token"][0])
+                    ->get()[0]
+                    ->id;
+
+        $conversation_id = $request->route("conversationId");
+
+        $message = Message::create([
+            "user_id" => $user_id,
+            "conversation_id" => $conversation_id,
+            "text" => $request->text
+        ]);
+
+        return $message;
     }
 }

@@ -30,4 +30,7 @@ Route::post('/login', [AuthorizationController::class, "loginApi"]);
 Route::group(["middleware" => "token"], function() {
     Route::get("/test", [AuthorizationController::class, "tokenTest"]);
     Route::post("/conversation", [DialogController::class, "createConversation"]);
+    Route::get("/conversation", [DialogController::class, "getConversations"]);
+    Route::get("/conversation/{conversationId}", [DialogController::class, "getConversation"]);
+    Route::post("/message/{conversationId}", [DialogController::class, "sendMessage"]);
 });
