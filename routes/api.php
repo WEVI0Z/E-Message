@@ -24,3 +24,4 @@ Route::get('/', function () {
 });
 
 Route::post('/register', [AuthorizationController::class, "registerApi"]);
+Route::post('/login', [AuthorizationController::class, "loginApi"]);

@@ -10,13 +10,6 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthorizationController extends Controller
 {
-    function login(Request $request) {
-        $request->validate([
-            "name" => "required",
-            "password" => "required",
-        ]);
-    }
-
     function loginApi(Request $request) {
         $validator = Validator::make($request->all(), [
             "login" => "required",
@@ -30,7 +23,13 @@ class AuthorizationController extends Controller
             ], 400);
         }
 
-        return response(["access_token" => User::query()->where("login", "=", $request->login)->where("password", "=", $request->password)]->get()->access_token, 200);
+        return response(
+            ["access_token" => User::query()
+                ->where("login", "=", $request->login)
+                ->where("password", "=", $request->password)
+                ->get()[0]->access_token
+            ], 200
+        );
     }
 
     function registerApi(Request $request) {
