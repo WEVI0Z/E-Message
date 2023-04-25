@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
 class AuthorizationController extends Controller
@@ -54,5 +53,9 @@ class AuthorizationController extends Controller
         ]);
 
         return response(["access_token" => $token], 200);
+    }
+
+    function tokenTest(Request $request) {
+        return User::query()->where("access_token", "=", $request->headers->all()["token"][0])->get();
     }
 }
