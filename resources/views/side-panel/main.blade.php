@@ -4,10 +4,10 @@
     </div>
 
     <ul class="previews">
-    </ul>
     @foreach ([1, 2, 3, 4, 5] as $preview)
         <li>
             @include("side-panel.preview")
         </li>
     @endforeach
+</ul>
 </div>

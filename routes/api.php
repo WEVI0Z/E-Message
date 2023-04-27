@@ -33,4 +33,5 @@ Route::group(["middleware" => "token"], function() {
     Route::get("/conversation", [DialogController::class, "getConversations"]);
     Route::get("/conversation/{conversationId}", [DialogController::class, "getConversation"]);
     Route::post("/message/{conversationId}", [DialogController::class, "sendMessage"]);
+    Route::post("/users/search", [DialogController::class, "searchUsers"]);
 });

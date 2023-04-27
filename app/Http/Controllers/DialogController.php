@@ -97,4 +97,12 @@ class DialogController extends Controller
 
         return $message;
     }
+
+    function searchUsers(Request $request) {
+        $users = User::query()
+                    ->where("login", "LIKE", "%" . $request->text . "%")
+                    ->get();
+        
+        return $users;
+    }
 }

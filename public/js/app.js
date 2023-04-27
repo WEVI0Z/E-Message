@@ -29,19 +29,56 @@ function main() {
 
     if(getToken()) {
         const logoutButton = document.querySelector(".header .navigation__item.user");
+        const searchInput = document.querySelector(".side-panel__search");
+        const previews = document.querySelector(".previews");
 
         function logoutButtonPressHandler(event) {
             event.preventDefault();
 
+            removeHandlers();
+
             logout();
+        }
+
+        async function searchInputChangeHandler(event) {
+            event.preventDefault();
+            previews.innerHTML = "";
+
+            const value = searchInput.value;
+
+            const response = await fetch(API_HREF + "users/search", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8',
+                    'token': localStorage.getItem("access_token")
+                },
+                body: JSON.stringify({text: value})
+            })
+            
+            const users = await response.json();
+
+            users.forEach(user => {
+                previews.innerHTML += `
+                    <a href="#" class="preview">
+                        <img class="preview__avatar" src="${LOCAL_HREF}images/avatar-1.png" width="40" height="40" alt="user avatar">
+                        <div class="content-part">
+                            <div class="top-part">
+                                <h3 class="preview__name">${user.login}</h3>
+                            </div>
+                        </div>
+                    </a>
+                `
+            });
         }
         
         function addHandlers() {
             logoutButton.addEventListener("click", logoutButtonPressHandler);
+            searchInput.addEventListener("change", searchInputChangeHandler);
         }
 
         function removeHandlers() {
-            logoutButton.addEventListener("click", logoutButtonPressHandler);
+            logoutButton.removeEventListener("click", logoutButtonPressHandler);
+            searchInput.removeEventListener("change", searchInputChangeHandler);
         }
 
         addHandlers();
