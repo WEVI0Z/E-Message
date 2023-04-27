@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="authorization">
-        <form action="{{route("register-post")}}" method="POST" class="login__form form">
+        <form action="" method="POST" class="register__form form">
             <label for="login" class="form__label">
                 Логин:
                 <input type="text" name="login" id="login" class="form__input" placeholder="username...">

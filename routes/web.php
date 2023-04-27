@@ -18,13 +18,10 @@ Route::get('/', function () {
     return view('main');
 });
 
-// Route::get("/login", function() {
-//     return view('auth.login');
-// })->name("login");
+Route::get('/login', function () {
+    return view('auth.login');
+})->name("login");
 
-// Route::get("/register", function() {
-//     return view('auth.register');
-// })->name("register");
-
-// Route::post("/register", [AuthorizationController::class, "register"])->name("register-post");
-// Route::post("/login", [AuthorizationController::class, "login"])->name("login-post");
+Route::get('/register', function () {
+    return view('auth.register');
+})->name("register");

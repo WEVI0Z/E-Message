@@ -22,13 +22,22 @@ class AuthorizationController extends Controller
             ], 400);
         }
 
-        return response(
-            ["access_token" => User::query()
+        $users = User::query()
                 ->where("login", "=", $request->login)
                 ->where("password", "=", $request->password)
-                ->get()[0]->access_token
-            ], 200
-        );
+                ->get();
+
+        if(count($users) === 0) {
+            return response(
+                ["status" => "Not found"],
+                404
+            );
+        } else {
+            return response(
+                ["access_token" => $users[0]->access_token],
+                200
+            );
+        }
     }
 
     function registerApi(Request $request) {
