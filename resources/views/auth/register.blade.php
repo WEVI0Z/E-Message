@@ -3,9 +3,12 @@
 @section('content')
     <section class="authorization">
         <form action="" method="POST" class="register__form form">
+            <p class="form__error hidden">
+                Неправильный логин или пароль
+            </p>
             <label for="login" class="form__label">
                 Логин:
-                <input type="text" name="login" id="login" class="form__input" placeholder="username...">
+                <input type="text" name="login" id="login" class="form__input form__input--login" placeholder="username...">
 
                 <span class="form__message">
                     @error('name')
@@ -16,7 +19,7 @@
 
             <label for="password" class="form__label">
                 Пароль:
-                <input type="password" name="password" id="password" class="form__input" placeholder="pass123...">
+                <input type="password" name="password" id="password" class="form__input form__input--password" placeholder="pass123...">
 
                 <span class="form__message">
                     @error('password')
@@ -27,7 +30,7 @@
 
             <label for="password-repeat" class="form__label">
                 Пароль:
-                <input type="password" name="password-repeat" id="password-repeat" class="form__input" placeholder="pass123...">
+                <input type="password" name="password-repeat" id="password-repeat" class="form__input form__input--password-repeat" placeholder="pass123...">
 
                 <span class="form__message">
                     @error('password-repeat')
