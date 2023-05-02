@@ -6,6 +6,7 @@ use App\Models\Conversation;
 use App\Models\ConversationUser;
 use App\Models\Message;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -102,6 +103,38 @@ class DialogController extends Controller
         $users = User::query()
                     ->where("login", "LIKE", "%" . $request->text . "%")
                     ->get();
+        
+        return $users;
+    }
+
+    function findConversation(Request $request) {
+        $validator = Validator::make($request->all(), [
+            "user_id" => "required|numeric",
+        ]);
+
+        if($validator->fails()) {
+            return response([
+                'status' => 'Validator exception',
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        $userId = User::query()
+                    ->where("access_token", "=", $request->headers->all()["token"][0])
+                    ->get()[0]
+                    ->id;
+
+        $targetId = $request->user_id;
+        
+
+        $users = Conversation::with(["users", "messages"])
+                        ->whereHas("users", function($query) use ($userId) {
+                            $query->where("user_id", "=", $userId);
+                        })
+                        ->whereHas("users", function($query) use ($targetId) {
+                            $query->where("user_id", "=", $targetId);
+                        })
+                        ->get();
         
         return $users;
     }

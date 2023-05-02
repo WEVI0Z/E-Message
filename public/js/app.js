@@ -32,6 +32,65 @@ function main() {
         const searchInput = document.querySelector(".side-panel__search");
         const previews = document.querySelector(".previews");
 
+        async function previewPressHandler(targetId) {
+            const conversation = await loadConversation(targetId);
+
+            const messages = conversation.messages;
+
+            const messanger = document.querySelector(".messanger");
+
+            const list = messanger.querySelector(".messanger__messages");
+
+            list.innerHTML = "";
+
+            messages.forEach(message => {
+                list.innerHTML += `
+                    <div class="message ${message.user_id === targetId ? "opponent" : "user"}">
+                        <p class="message__text">${message.text}</p>
+                    </div>
+                `;
+            });
+
+            const submitButton = messanger.querySelector("button");
+            const input = messanger.querySelector("input");
+
+            removeHandlers();
+            addHandlers();
+
+            function addHandlers() {
+                submitButton.addEventListener("click",  submitPressHandler);
+            }
+
+            function removeHandlers() {
+                submitButton.removeEventListener("click", submitPressHandler);
+            }
+
+            async function submitPressHandler(event) {
+                event.preventDefault();
+                const message = await sendMessage(conversation.id, input.value);
+                list.innerHTML += `
+                    <div class="message user">
+                        <p class="message__text">${input.value}</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function sendMessage(id, text) {
+            const response = await fetch(API_HREF + "message/" + id, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8',
+                    'token': localStorage.getItem("access_token")
+                },
+                body: JSON.stringify({text: text})
+            })
+
+            if(!response.ok) {
+                return;
+            }
+        }
+
         function logoutButtonPressHandler(event) {
             event.preventDefault();
 
@@ -40,6 +99,29 @@ function main() {
             logout();
         }
 
+        async function loadConversation(id) {
+            const response = await fetch(API_HREF + "conversation/find", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8',
+                    'token': localStorage.getItem("access_token")
+                },
+                body: JSON.stringify({user_id: id})
+            })
+
+            if(!response.ok) {
+                return;
+            }
+
+            const results = await response.json();
+
+            if(results !== []) {
+                return results[0];
+            } else {
+                return;
+            }
+        }
+        
         async function searchInputChangeHandler(event) {
             event.preventDefault();
             previews.innerHTML = "";
@@ -67,8 +149,20 @@ function main() {
                             </div>
                         </div>
                     </a>
-                `
+                `;
             });
+            
+            const links = previews.querySelectorAll(".preview");
+
+            users.forEach((user, id) => {
+                links[id].addEventListener("click", async (event) => {
+                    event.preventDefault();
+
+                    const targetId = user.id;
+
+                    await previewPressHandler(targetId);
+                });
+            })
         }
         
         function addHandlers() {
