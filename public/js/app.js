@@ -107,7 +107,7 @@ function main() {
                     'token': localStorage.getItem("access_token")
                 },
                 body: JSON.stringify({user_id: id})
-            })
+            });
 
             if(!response.ok) {
                 return;
@@ -115,10 +115,26 @@ function main() {
 
             const results = await response.json();
 
-            if(results !== []) {
+            if(results[0]) {
                 return results[0];
             } else {
-                return;
+                const response = await fetch(API_HREF + "conversation", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8',
+                        'token': localStorage.getItem("access_token")
+                    },
+                    body: JSON.stringify({user_id: id})
+                });
+
+                if (!response.ok) {
+                    return;
+                }
+
+                const results = await response.json();
+
+
+                return results[0];
             }
         }
         
