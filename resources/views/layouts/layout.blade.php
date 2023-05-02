@@ -10,6 +10,8 @@
     <title>E-Message</title>
 </head>
 <body>
-    @yield('content')   
+    @yield('content')
+
+    <script src="{{url('/')}}/js/app.js"></script>
 </body>
 </html>

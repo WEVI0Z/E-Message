@@ -64,3 +64,14 @@
 .form__suggest:hover {
     color: blue;
 }
+
+.form__message {
+    font-size: 14px;
+    color: red;
+}
+
+.form__error {
+    margin-bottom: 0;
+    text-align: center;
+    color: red;
+}
