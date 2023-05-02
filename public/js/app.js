@@ -2,13 +2,10 @@ const LOCAL_HREF = "http://0.0.0.0/";
 const API_HREF = LOCAL_HREF + "api/";
 
 if(document.querySelector(".login__form")) {
-    console.log("Login");
     login();
 } else if(document.querySelector(".register__form")) {
-    console.log("Register")
     register();
 } else if(document.querySelector("main")) {
-    console.log("Main");
     main();
 }
 
@@ -35,8 +32,11 @@ function main() {
         async function previewPressHandler(targetId) {
             const conversation = await loadConversation(targetId);
 
-            const messages = conversation.messages;
+            let messages = [];
 
+            if (conversation.messages) {
+                messages = conversation.messages;
+            }
             const messanger = document.querySelector(".messanger");
 
             const list = messanger.querySelector(".messanger__messages");
@@ -54,6 +54,8 @@ function main() {
             const submitButton = messanger.querySelector("button");
             const input = messanger.querySelector("input");
 
+            const form = messanger.querySelector("");
+
             removeHandlers();
             addHandlers();
 
@@ -68,6 +70,7 @@ function main() {
             async function submitPressHandler(event) {
                 event.preventDefault();
                 const message = await sendMessage(conversation.id, input.value);
+
                 list.innerHTML += `
                     <div class="message user">
                         <p class="message__text">${input.value}</p>

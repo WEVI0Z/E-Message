@@ -100,8 +100,14 @@ class DialogController extends Controller
     }
 
     function searchUsers(Request $request) {
+        $user_id = User::query()
+                    ->where("access_token", "=", $request->headers->all()["token"][0])
+                    ->get()[0]
+                    ->id;
+
         $users = User::query()
                     ->where("login", "LIKE", "%" . $request->text . "%")
+                    ->whereNot("id", "=", $user_id)
                     ->get();
         
         return $users;
